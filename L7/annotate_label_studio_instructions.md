@@ -5,7 +5,7 @@ Please refer to `https://labelstud.io/guide/install.html' for more install optio
 
 ## Pre-requisites
 
-Download the docker-compose.yml file to a chosen directory which you will use to store data from Label Studio and the ML backend.  Change to that directory (e.g. c:\mydata on windows), and create two subdirectory:  `labelstudio_data` and `grnddino_data`. 
+Download the compose.yml file to a chosen directory which you will use to store data from Label Studio and the ML backend.  Change to that directory (e.g. c:\mydata on windows), and create two subdirectory:  `labelstudio_data` and `grnddino_data`. 
 
 ```powershell
 cd c:\mydata
@@ -31,11 +31,11 @@ You need to create an access token for ML backend to access the images stored in
 
 Click on the Label Studio home icon and click Organization to go to organization page:
 
-![organization](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/organization.png?raw=true)
+![organization](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/organization.png?raw=true)
 
 and then click on API Token Settings and enable Legacy Tokens: 
 
-![api token setting](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/api_token_settings.png?raw=true)
+![api token setting](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/api_token_settings.png?raw=true)
 
 Save the changes. 
 
@@ -43,7 +43,7 @@ Save the changes.
 
 Now go to your Accounts & Settings (found on the top right corner), then navigate to Legacy Token to create a token: 
 
-![legacy token](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/legacy_token.png?raw=true)
+![legacy token](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/legacy_token.png?raw=true)
 
 Copy the token to be used later when you are setting up the ML backend. 
 
@@ -52,7 +52,7 @@ Copy the token to be used later when you are setting up the ML backend.
 
 From Label Studio, click Create Project in the upper right. A window opens with three tabs:
 
-![settings](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/create_project.png?raw=true)
+![settings](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/create_project.png?raw=true)
 
 *Project Name*
 
@@ -120,33 +120,33 @@ podman compose up -d grnddino
 
 Open the project in Label Studio, and click "settings" on the top right corner.
 
-![project_setting](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/project_settings.png?raw=true)
+![project_setting](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/project_settings.png?raw=true)
 
 
 ### Model Setting 
 
-In *Model* setting, click "Connect Model", and in the setting page, enter the name, and URL of the backend ML (i.e. `http://grnddino:9090`) ,and toggle on interactive preannotations.  
+In *Model* setting, click "Connect Model", and in the setting page, enter the name, and URL of the backend ML (i.e. `http://localhost:9090`) ,and toggle on interactive preannotations.  
 
 For example: 
 
-![model setting](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/model_setting.png?raw=true)
+![model setting](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/gndino.png?raw=true)
 
 Click Validate and Save. There should not be any error and you should see that the model is connected: 
 
-![model status](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/model_connected_status.png?raw=true)
+![model status](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/model_connected_status.png?raw=true)
 
 ### Annotation Settings
 
 Now navigate to *Annotation*. In *Annotation* settings, toggle on *Use predictions to prelabel tasks* and select "grounding dino" model as the prediction model. 
 
-![annotation settings](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/annotation_settings.png?raw=true)
+![annotation settings](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/annotation_settings.png?raw=true)
 
 
 ### Auto-Labelling using Grounding Dino
 
 Now you can try out the auto-labelling using Grounding Dino you setup earlier. Open the Project and select any image to label.  
 
-![prompt](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/prompt.png?raw=true)
+![prompt](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/prompt.png?raw=true)
 
 Make sure the *Auto-Annotation* is enabled. You can also optionally toggle on *Auto-accept Suggestions*. 
 
@@ -154,13 +154,13 @@ Now select the label `'goldfish 1'` below, and type `goldfish` in the prompt tex
 
 You should see the following after a while: 
 
-![label result](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/label_result.png?raw=True)
+![label result](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/label_result.png?raw=True)
 
 Togge the accept button to accept the suggested annotation (alternatively you can just click the green tick to accept all suggestions). 
 
 The bounding box will change to solid color (in this case our label color is green) and you can then click Submit button to submit the labelling to complete the labelling process for this image. 
 
-![final result](https://github.com/nyp-sit/iti121-2025s2/blob/main/L7/assets/final_result.png?raw=True)
+![final result](https://github.com/nyp-sit/iti121-2026s2/blob/main/L7/assets/final_result.png?raw=True)
 
 ### Export
 
@@ -197,11 +197,13 @@ you can shutdown both containers all at one by:
 
 ```bash
 podman compose down
+podman machine stop
 ```
 
 After the initial setup, the next time you can just start all containers at once by:
 
 ```bash
+podman machine start
 podman compose up
 ```
 

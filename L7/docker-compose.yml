@@ -1,44 +1,28 @@
 services:
   labelstudio:
-    image: ainyp/label-studio:latest
+    image: docker.io/ainyp/label-studio:latest
     container_name: labelstudio
     user: "0"
-    ports:
-      - "8080:8080"
+    network_mode: host
     volumes:
       - ./labelstudio_data:/label-studio/data
-    networks:
-      app_network:
-        ipv4_address: 192.168.200.10
+    environment:
+      - ML_TIMEOUT_PREDICT=100
 
   grnddino:
-    image: ainyp/label-studio-ml-backend:grnddino
+    image: docker.io/brandonnyp/label-studio-ml-backend:grnddino-cpu
     container_name: grnddino
-    ports: 
-      - "9090:9090"
+    network_mode: host
     volumes:
       - ./grnddino_data:/data
-    networks:
-      app_network:
-        ipv4_address: 192.168.200.11
     environment:
       - MODEL_DIR=/data/models
-      - WORKERS=2
+      - WORKERS=1
       - THREADS=4
-      - LOG_LEVEL=DEBUG
-
-      # Add these variables if you want to access the images stored in Label Studio
-      - LABEL_STUDIO_HOST=http://192.168.200.10:8080
-      - LABEL_STUDIO_ACCESS_TOKEN=<<change to your legacy token>>
+      - LOG_LEVEL=INFO
+      - LABEL_STUDIO_HOST=http://localhost:8080
+      - LABEL_STUDIO_ACCESS_TOKEN=3622bed48434c8cb364fe36e61e17e1e94ea3c62
       - BOX_THRESHOLD=0.30
       - TEXT_THRESHOLD=0.25
-    # Uncomment the following lines if you want to use GPU
-    # - NVIDIA_VISIBLE_DEVICES=all
-    # No ports exposed to host
-
-networks:
-  app_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.200.0/24
+    depends_on:
+      - labelstudio
